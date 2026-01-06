@@ -43,12 +43,13 @@ async function sendDailyBrief(items) {
             
             ${items.map((item, index) => `
             <div class="card">
-                <h3>#${index + 1} ${item.painProtocol}</h3>
-                <p>${item.summary}</p>
-                <div class="history"><strong>📜 历史对标：</strong>${item.historyMatch}</div>
-                <div class="golden">“${item.goldenSentence}”</div>
-                <div style="margin-top:10px;">
+                <h3><a href="${item.link}" target="_blank" style="text-decoration:none; color:#333;">#${index + 1} ${item.title}</a></h3>
+                <div style="margin-bottom:8px;">
                     <span class="tag">${item.source}</span>
+                </div>
+                <p style="color:#666; font-size:14px;">${item.summary}</p>
+                <div style="margin-top:10px;">
+                    <a href="${item.link}" style="color:#b92b27; font-weight:bold; font-size:12px;">🔗 点击阅读原文</a>
                 </div>
             </div>
             `).join('')}
