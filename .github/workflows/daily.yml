@@ -1,0 +1,34 @@
+name: Daily Insight Radar
+
+on:
+  schedule:
+    # UTC times: 3:00 (11:00 CST), 8:00 (16:00 CST), 12:00 (20:00 CST)
+    - cron: '0 3,8,12 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  run-radar:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    - name: Install Dependencies
+      run: npm install
+      
+    - name: Run Scraper
+      env:
+        SMTP_HOST: ${{ secrets.SMTP_HOST }}
+        SMTP_PORT: ${{ secrets.SMTP_PORT }}
+        SMTP_USER: ${{ secrets.SMTP_USER }}
+        SMTP_PASS: ${{ secrets.SMTP_PASS }}
+        EMAIL_TO: ${{ secrets.EMAIL_TO }}
+        LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+        LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+        LLM_MODEL: ${{ vars.LLM_MODEL }}
+      run: npm start

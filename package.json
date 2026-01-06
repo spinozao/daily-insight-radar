@@ -1,0 +1,28 @@
+{
+  "name": "daily-insight-radar",
+  "version": "1.0.0",
+  "description": "Automated information scraper and AI analyzer for content curation.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "scraper",
+    "automation",
+    "ai",
+    "content-curation"
+  ],
+  "author": "Antigravity",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12",
+    "dotenv": "^16.3.1",
+    "nodemailer": "^6.9.7",
+    "openai": "^4.14.0",
+    "puppeteer": "^21.5.0",
+    "rss-parser": "^3.13.0",
+    "winston": "^3.11.0"
+  }
+}
