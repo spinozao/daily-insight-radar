@@ -1,3 +1,14 @@
+const { File } = require('node:buffer');
+
+// Polyfill File for Node 18 environments where it's not global but required by dependencies (like undici/openai)
+if (typeof global.File === 'undefined') {
+    try {
+        global.File = File;
+    } catch (e) {
+        console.warn('Failed to polyfill File:', e);
+    }
+}
+
 const config = require('./config');
 const { fetchAllSources } = require('./sources/fetcher');
 const sources = require('./sources/definitions');
