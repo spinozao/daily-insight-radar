@@ -9,7 +9,7 @@ async function fetchFromRSS(source) {
         const feed = await parser.parseURL(source.url);
         if (!feed.items) return [];
 
-        return feed.items.slice(0, 5).map(item => ({
+        return feed.items.slice(0, 20).map(item => ({
             title: item.title,
             link: item.link,
             content: item.contentSnippet || item.content || item.summary || item.title, // Fallback
@@ -35,7 +35,7 @@ async function fetchFromWeb(source) {
         const items = [];
 
         $(source.selector).each((i, el) => {
-            if (items.length >= 5) return false;
+            if (items.length >= 20) return false;
             const title = $(el).text().trim();
             let link = $(el).attr('href');
 
@@ -61,9 +61,10 @@ async function fetchFromWeb(source) {
             }
         });
 
-        // Fetch details for top 3 to get rich text for LLM
+        // Fetch details for top 20 to get rich text for LLM
         const detailedItems = [];
-        for (const item of items.slice(0, 3)) {
+        // Try to fetch details for all found items
+        for (const item of items) {
             try {
                 const detailRes = await axios.get(item.link, { timeout: 8000 });
                 const $$ = cheerio.load(detailRes.data);
@@ -77,15 +78,20 @@ async function fetchFromWeb(source) {
                     text = $$('p').text().trim();
                 }
 
-                if (text.length > 100) {
+                if (text.length > 50) {
                     item.content = text.substring(0, 3000); // Truncate
-                    detailedItems.push(item);
+                } else {
+                    // If text is short, use title as content fallback
+                    item.content = item.title + (text ? ': ' + text : '');
                 }
             } catch (e) {
                 // Determine if we should keep it just with title. 
                 // For LLM analysis, title alone isn't enough for "Deep" analysis.
-                // So we skip if detail fetch fails.
+                // But user wants ITEMS. So we keep it.
+                // console.warn(`Detail fetch failed for ${item.link}: ${e.message}`);
             }
+            // Always push the item, even if detail fetch failed (it has basic info)
+            detailedItems.push(item);
         }
         return detailedItems;
 

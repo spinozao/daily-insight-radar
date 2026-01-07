@@ -13,7 +13,7 @@ module.exports = [
     {
         name: '新华网·评论',
         type: 'web',
-        url: 'http://www.xinhuanet.com/comments/index.htm',
+        url: 'http://www.xinhuanet.com/comments/index.html',
         selector: '.main-news-box li a',
         category: 'official'
     },
@@ -52,14 +52,14 @@ module.exports = [
         selector: '.article-item-title',
         category: 'deep'
     },
-    {
-        name: '人物 (People Magazine)',
-        type: 'web',
-        url: 'https://mp.weixin.qq.com/mp/homepage?__biz=MjM5NzU4ODQ2MA==&hid=2&sn=...', // WeChat logic is hard, using placeholder
-        selector: '.weui-media-box__title',
-        category: 'deep',
-        note: 'Requires specialized WeChat scraper or RSSHub'
-    },
+    // {
+    //     name: '人物 (People Magazine)',
+    //     type: 'web',
+    //     url: 'https://mp.weixin.qq.com/mp/homepage?__biz=MjM5NzU4ODQ2MA==&hid=2&sn=...', // WeChat logic is hard, using placeholder
+    //     selector: '.weui-media-box__title',
+    //     category: 'deep',
+    //     note: 'Requires specialized WeChat scraper or RSSHub'
+    // },
     {
         name: '南方窗',
         type: 'rss',
